@@ -108,11 +108,17 @@ const fetch = async (options: FetchOptions) => {
 }
 
 const adapter: SimpleAdapter = {
-  version: 2,
-  pullHourly: true,
+  version: 1,
+  start: '2024-07-07',
   methodology,
   fetch,
-  chains: Object.entries(RingDexConfigs).map(([chain, config]) => [chain, { start: config.start }]),
+  adapter: {}
+}
+
+for (const [chain, config] of Object.entries(RingDexConfigs)) {
+  (adapter.adapter as any)[chain] = {
+    start: config.start,
+  }
 }
 
 export default adapter;
